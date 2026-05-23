@@ -6,9 +6,14 @@ import traceback
 app = Flask(__name__)
 CORS(app)
 
-# Load artifacts when the app starts (works with both python and gunicorn)
+# Load artifacts when the app starts (this runs with gunicorn)
 print("Starting Python Flask Server For Home Price Prediction...")
-util.load_saved_artifacts()
+try:
+    util.load_saved_artifacts()
+    print("✓ Artifacts loaded successfully!")
+except Exception as e:
+    print(f"✗ Error loading artifacts: {str(e)}")
+    traceback.print_exc()
 
 @app.route('/')
 def home():
