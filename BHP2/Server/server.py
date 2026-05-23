@@ -6,6 +6,10 @@ import traceback
 app = Flask(__name__)
 CORS(app)
 
+# Load artifacts when the app starts (works with both python and gunicorn)
+print("Starting Python Flask Server For Home Price Prediction...")
+util.load_saved_artifacts()
+
 @app.route('/')
 def home():
     return "Flask server is up and running!"
@@ -41,6 +45,4 @@ def predict_home_price():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == "__main__":
-    print("Starting Python Flask Server For Home Price Prediction...")
-    util.load_saved_artifacts()
     app.run(host='0.0.0.0', port=5000)
