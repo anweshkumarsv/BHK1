@@ -1,6 +1,7 @@
 import pickle
 import json
 import numpy as np
+import os
 
 __locations = None
 __data_columns = None
@@ -30,15 +31,24 @@ def load_saved_artifacts():
     global __locations
     global __model
 
-    with open("./artifacts/columns.json", 'r') as f:
+    # Get the directory where this file is located
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    artifacts_dir = os.path.join(base_dir, 'artifacts')
+    
+    columns_path = os.path.join(artifacts_dir, 'columns.json')
+    model_path = os.path.join(artifacts_dir, 'banglore_home_prices_model.pickle')
+    
+    print(f"Loading artifacts from: {artifacts_dir}")
+    print(f"Columns file exists: {os.path.exists(columns_path)}")
+    print(f"Model file exists: {os.path.exists(model_path)}")
+
+    with open(columns_path, 'r') as f:
         __data_columns = json.load(f)['data_columns']
         __locations = __data_columns[3:]  # first 3 columns are sqft, bath, bhk
 
-
-    with open("./artifacts/banglore_home_prices_model.pickle", 'rb') as f:
-            __model = pickle.load(f)
+    with open(model_path, 'rb') as f:
+        __model = pickle.load(f)
     print("loading saved artifacts...done")
-
 
 
 def get_data_columns():
