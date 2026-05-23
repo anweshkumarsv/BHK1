@@ -26,7 +26,7 @@ function onClickedEstimatePrice() {
     var location = document.getElementById("uiLocations").value;
     var estPrice = document.getElementById("uiEstimatedPrice");
 
-    var url = "http://127.0.0.1:5000/predict_home_price"; // Ensure this matches Flask port
+    var url = "https://bhk1.onrender.com/predict_home_price";
 
     $.post(url, {
         total_sqft: parseFloat(sqft),
@@ -41,14 +41,15 @@ function onClickedEstimatePrice() {
 
 function onPageLoad() {
     console.log("document loaded");
-    var url = "http://127.0.0.1:5000/get_location_names";  // <-- Corrected endpoint
+
+    var url = "https://bhk1.onrender.com/get_location_names";
 
     $.get(url, function (data, status) {
         console.log("Got response for get_location_names");
         if (data) {
             var locations = data.locations;
             var uiLocations = document.getElementById("uiLocations");
-            $('#uiLocations').empty(); // Clear existing options
+            $('#uiLocations').empty();
             for (var i in locations) {
                 var opt = new Option(locations[i]);
                 $('#uiLocations').append(opt);
@@ -56,6 +57,5 @@ function onPageLoad() {
         }
     });
 }
-
 
 window.onload = onPageLoad;
